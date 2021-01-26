@@ -39,33 +39,10 @@
                 gltfLoader = new THREE.GLTFLoader();
                 gltfLoader.setPath();
 
-                renderer = new THREE.WebGLRenderer({ antialias: true });
-                renderer.setPixelRatio(window.devicePixelRatio);
-                renderer.setSize(window.innerWidth, window.innerHeight + 5);
-                document.body.appendChild(renderer.domElement);
-                
-                const geometry = new THREE.PlaneGeometry( 70, 120, 0 );
-                const material = new THREE.MeshBasicMaterial( {color: 0x335D86, side: THREE.DoubleSide} );
-                const plane = new THREE.Mesh( geometry, material );
-                plane.rotation.x = Math.PI / 2;
-                plane.position.x = 25;
-                plane.position.z = 50;
-                scene.add( plane );
-
-                const color = 0xFFFFFF;
-                const intensity = 1;
-                const light = new THREE.DirectionalLight(color, intensity);
-                light.position.set(0, 10, 0);
-                light.target.position.set(-5, 0, 0);
-                scene.add(light);
-                scene.add(light.target);
-
-                const gui = new GUI();
-                gui.addColor(new ColorGUIHelper(light, 'color'), 'value').name('color');
-                gui.add(light, 'intensity', 0, 2, 0.01);
-                gui.add(light.target.position, 'x', -10, 10);
-                gui.add(light.target.position, 'z', -10, 10);
-                gui.add(light.target.position, 'y', 0, 10);
+                renderSkybox();
+                addRenderer();
+                addPlane();
+                addLights();
 
                 window.addEventListener('resize', onWindowResize, false);
             }
@@ -82,6 +59,47 @@
                     return model;
                 });
             } 
+
+            function addLights(){
+                const color = 0xFFFFFF;
+                const intensity = 1;
+                const light = new THREE.DirectionalLight(color, intensity);
+                light.position.set(0, 10, 0);
+                light.target.position.set(-5, 0, 0);
+                scene.add(light);
+                scene.add(light.target);
+            }
+
+            function addPlane(){
+                const geometry = new THREE.PlaneGeometry( 70, 120, 0 );
+                const material = new THREE.MeshBasicMaterial( {color: 0x335D86, side: THREE.DoubleSide} );
+                const plane = new THREE.Mesh( geometry, material );
+                plane.rotation.x = Math.PI / 2;
+                plane.position.x = 25;
+                plane.position.z = 50;
+                scene.add( plane );
+            }
+            function addRenderer(){
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(window.innerWidth, window.innerHeight + 5);
+                document.body.appendChild(renderer.domElement);
+            }
+
+            function renderSkybox(){
+                const loader = new THREE.CubeTextureLoader();
+                const texture = loader.load([
+                    'textures/sky.png',
+                    'textures/sky.png',
+                    'textures/sky.png',
+                    'textures/sky.png',
+                    'textures/sky.png',
+                    'textures/sky.png',
+                ]);
+                scene.background = texture;
+            }
+
+
 
             function onWindowResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
