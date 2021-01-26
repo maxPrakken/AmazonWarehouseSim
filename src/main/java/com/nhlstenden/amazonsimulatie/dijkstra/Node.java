@@ -1,5 +1,8 @@
 package com.nhlstenden.amazonsimulatie.dijkstra;
 import com.nhlstenden.amazonsimulatie.models.*;
+
+import org.springframework.boot.test.IntegrationTest;
+
 import java.util.*;
 
 public class Node implements Comparable<Node>, Object3D, Updatable{
