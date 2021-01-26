@@ -89,12 +89,12 @@
             function renderSkybox(){
                 const loader = new THREE.CubeTextureLoader();
                 const texture = loader.load([
-                    'textures/sky.png',
-                    'textures/sky.png',
-                    'textures/sky.png',
-                    'textures/sky.png',
-                    'textures/sky.png',
-                    'textures/sky.png',
+                    'textures/rightsky.png',
+                    'textures/leftsky.png',
+                    'textures/topsky.png',
+                    'textures/botsky.png',
+                    'textures/frontsky.png',
+                    'textures/backsky.png',
                 ]);
                 scene.background = texture;
             }
